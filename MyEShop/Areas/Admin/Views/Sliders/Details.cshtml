@@ -1,0 +1,74 @@
+﻿@model DataLayer.Slider
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Slider</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SliderTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SliderTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SliderImageName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SliderImageName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SliderStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SliderStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SliderEndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SliderEndTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SliderIsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SliderIsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegisterDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegisterDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModificationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModificationDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SliderID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<DataLayer.Product_Comments>
+
+@foreach (var item in Model.Where(c => c.CommentParentID == null))
+{
+<li>
+    <a onclick="ReplyComment(@item.CommentID)" class="reply-button">Answer</a>
+
+    <img src="/Content/img/avatar.jpg" width="65">
+    <div>
+        <h5>ارسال شده از : @item.UserName در تاریخ : @item.RegisterDate.ToString("yyyy/MM/dd") </h5>
+        <p>
+            @item.Comment
+        </p>
+    </div>
+    <div class="clearfix"></div>
+    @if (Model.Any(c => c.CommentParentID == item.CommentID))
+    {
+        <ul>
+            @foreach (var sub in Model.Where(c => c.CommentParentID == item.CommentID))
+            {
+                <li>
+                    <img src="/Content/img/avatar.jpg" width="65">
+                    <div>
+                        <h5>ارسال شده از : @sub.UserName در تاریخ : @sub.RegisterDate.ToString("yyy/MM/dd") </h5>
+                        <p>
+                            @sub.Comment
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+            }
+
+        </ul>
+    }
+
+</li>
+}

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DataLayer.ViewModels.ShowOrderViewModel>
+
+<div class="row basket-style">
+    <section class="border-radius">
+        <div class="tbl-head">
+            <ul>
+                <li> شرح محصول </li>
+                <li> تعداد و وزن </li>
+                <li> قیمت واحد </li>
+                <li> قیمت کل   </li>
+            </ul>
+        </div>
+        <div class="hidden-head">
+            your Cart
+        </div>
+        <div class="tbl-body">
+            @foreach (var item in Model)
+            {
+                <!-- Each Row -->
+                <ul>
+                    <li>
+                        <a href="" class="product-image"><img class="border-radius" src="~/Images/ProductImages/Thumb/@item.ImageName"></a>
+                        <div class="product-info-left-side">
+                            <a href="" class="product-title"> <h3> @item.Title </h3> </a>
+                        </div>
+                    </li>
+                    <li>
+                        <p>
+                            <input name="points" min="1" max="30" step="1" value="@item.Count" onchange="commandOrder(@item.ProductID,$(this).val())" type="number">
+                        </p>
+                    </li>
+                    <li>
+                        <label class="lbl-hidden"> Price : </label> <span class="lbl-price"> @item.Price.ToString("#,0") Toman </span>
+                    </li>
+                    <li>
+                        <label class="lbl-hidden">Price Sum : </label> <span class="lbl-price"> @item.Sum تومان </span>
+
+                        <a onclick="commandOrder(@item.ProductID,0)"><i class="delete-button">X</i></a>
+                    </li>
+                </ul>
+                <!-- End Each Row -->
+            }
+
+
+
+        </div>
+        <div class="tbl-footer">
+            <ul>
+                <li> Price Sum : <span>@Model.Sum(p=>p.Sum).ToString("#,0")Toman</span></li>
+                <li class="total-price"> The Amount payable : <span> @Model.Sum(p => p.Sum).ToString("#,0") تومان </span></li>
+            </ul>
+        </div>
+        <a href="/ShopCart/Payment" type="button" class="border-radius submit-basket-button"> Countinue </a>
+        <div class="clearfix"></div>
+    </section>
+</div>

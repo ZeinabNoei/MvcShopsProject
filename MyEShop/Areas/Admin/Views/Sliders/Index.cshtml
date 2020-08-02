@@ -1,0 +1,55 @@
+﻿@model IEnumerable<DataLayer.Slider>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SliderTitle)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.SliderStartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SliderEndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SliderIsActive)
+        </th>
+ 
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SliderTitle)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.SliderStartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SliderEndTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SliderIsActive)
+        </td>
+    
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SliderID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SliderID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SliderID })
+        </td>
+    </tr>
+}
+
+</table>

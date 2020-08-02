@@ -1,0 +1,41 @@
+﻿@model IEnumerable<DataLayer.Features>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a href="@Url.Action("Create")" class="btn btn-success">Add New Feature</a>
+
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FeatureTitle)
+        </th>
+  
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FeatureTitle)
+            </td>
+
+            <td>
+                <a href="@Url.Action("Edit", new { id=item.FeatureID})" class="btn btn-warning btn-sm">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+                <a href="@Url.Action("Delete", new { id=item.FeatureID})" class="btn btn-danger btn-sm">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+
+            </td>
+        </tr>
+    }
+
+</table>

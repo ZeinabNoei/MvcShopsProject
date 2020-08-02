@@ -1,0 +1,71 @@
+﻿@model DataLayer.Product_Galleries
+
+@{
+    ViewBag.Title = "Gallery";
+}
+
+<h2>Gallery</h2>
+<div class="row">
+@using (Html.BeginForm("Gallery", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ProductID)
+
+    <div class="col-md-4">
+        <div class="form-horizontal">
+            <h4>Gallery Product</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GalleryTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.GalleryTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GalleryTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.GalleryImageName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <input type="file" name="imgUp" value="" />
+                    @Html.ValidationMessageFor(model => model.GalleryImageName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="col-md-8">
+        @{
+//List<Product_Galleries> list = ViewBag.Galleries;
+            <table class="table table-bordered">
+                <tr>
+                    <trh>Picture</trh>
+                    <trh>Title</trh>
+                    <trh></trh>
+                </tr>
+                @*@foreach (var item in list)
+                {
+                    <tr></tr>
+                }*@
+
+            </table>
+
+        }
+
+    </div>
+}
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

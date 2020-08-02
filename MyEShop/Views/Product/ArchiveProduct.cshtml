@@ -1,0 +1,85 @@
+﻿@using DataLayer
+@model IEnumerable<DataLayer.Products>
+@{
+    ViewBag.Title = "ArchiveProduct";
+}
+
+@section Filters
+{
+    <section class="border-radius ">
+        <header><h3> Filters </h3></header>
+        <article class="filter">
+            <form action="/Archive" id="filterForm">
+                <input type="hidden" name="@ViewBag.pageId" id="PageId"  value="PageId" />
+                <p>Title</p><p><input type="text" name="title" value="@ViewBag.name" class="form-control" /></p>
+                <p>Price from</p><p><input type="number" name="minPrice" value="@ViewBag.minPrice" class="form-control" /></p>
+                <p>Price up</p><p><input type="number" name="maxPrice" value="@ViewBag.maxPrice" class="form-control" /></p>
+                @{
+                    List<Product_Groups> list = ViewBag.Groups;
+                    //??Age null bod error nade
+                    List<int> selected = ViewBag.SelectedGroups?? new List<int>();
+                }
+                <p>Filter Groups</p>
+                <ul>
+                    @foreach (var group in list.Where(g => g.ParentID == null))
+                    {
+                        <li>
+                            <input type="checkbox" name="SelectedGroups" @((selected.Any(s=>s==group.GroupID))?"checked":"") value="@group.GroupID" />
+                            <span>@group.GroupTitle </span>
+                            @if (list.Any(g=>g.ParentID==group.GroupID))
+                            {
+                                <ul>
+                                    @foreach (var subGroup in list.Where(g => g.ParentID == group.GroupID))
+                                    {
+                                    <li>
+                                        <input type="checkbox" name="SelectedGroups" @((selected.Any(s=>s==subGroup.GroupID))?"checked":"")  value="@subGroup.GroupID" />
+                                        <span>@subGroup.GroupTitle </span>
+                                    </li>
+                                    }
+                                </ul>
+                            }
+
+                        </li>
+                    }
+                </ul>
+                <input type="submit" name="name" value="Actions" class="btn btn-block btn-primary" />
+            </form>
+
+        </article>
+    </section>
+
+}
+
+
+    <section class="last-products">
+        <header><h3> Archive Products </h3> <a href="">  </a></header>
+        <article>
+
+            @foreach (var item in Model)
+            {
+                @Html.Partial("_product", item)
+            }
+
+            <div class="clearfix"></div>
+        </article>
+    </section>
+@if (ViewBag.PageCount > 1)
+{
+    <div class="pagination-layer">
+        <ul class="pagination">
+            @for (int i = 1; i <= ViewBag.PageCount; i++)
+            {
+                <li><a onclick="changePage(I)" href="#">@i</a></li>
+
+            }
+        </ul>
+    </div>
+}
+
+<script>
+    function changePage(pageId)
+    {
+        $('#PageId').val(PageId);
+        $('#filterForm').subm ;
+    }
+</script>

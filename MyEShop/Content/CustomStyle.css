@@ -1,0 +1,6 @@
+﻿.field-validation-valid {
+    display: none;
+}
+.filter input {
+    width: 100% !important;
+}

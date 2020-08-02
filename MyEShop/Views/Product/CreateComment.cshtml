@@ -1,0 +1,36 @@
+﻿@model DataLayer.Product_Comments
+
+@using (Ajax.BeginForm("CreateComment", "Product", FormMethod.Post, new AjaxOptions()
+{
+    OnSuccess = "successComment",
+    UpdateTargetId = "listComment"
+
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ProductID)
+    @Html.HiddenFor(m => m.CommentParentID)
+    <div class="col-md-5">
+        <div class="form-group">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", placeholder = "Insert your Name" })
+            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+
+        </div>
+        <div class="form-group">
+            @Html.TextBoxFor(m => m.UserEmail, new { @class = "form-control", placeholder = "Insert your Email" })
+            @Html.ValidationMessageFor(model => model.UserEmail, "", new { @class = "text-danger" })
+
+        </div>
+        <div class="form-group">
+            @Html.TextBoxFor(m => m.UserWebSite, new { @class = "form-control", placeholder = "Insert your WebSite" })
+        </div>
+    </div>
+    <div class="col-md-7">
+        @Html.TextAreaFor(m => m.Comment, new { @class = "form-control", placeholder = "Insert your Comment" })
+        @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+
+        <input class="btn btn-primary" value="ثبت دیدگاه ارزشمند شما" type="submit">
+    </div>
+    <div class="clearfix"></div>
+
+}

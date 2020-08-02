@@ -1,0 +1,24 @@
+﻿@model IEnumerable<DataLayer.ViewModels.ShopCartItemViewModel>
+
+
+@if (Model.Any())
+{
+    <section class="border-radius basket-side">
+        <header><h3> Your Cart </h3></header>
+        <article>
+            <ul>
+                @foreach (var item in Model)
+                {
+                    <li>
+                        <img class="border-radius" src="~/Images/ProductImages/Thumb/@item.ImageName">
+                        <div class="left-basket">
+                            <a href="">@item.Title <span class="border-radius"> @item.Count </span></a>
+                        </div>
+                    </li>
+                }
+
+            </ul>
+            <a href="/ShopCart" class="show-basket-button border-radius">View Cart</a>
+        </article>
+    </section>
+}

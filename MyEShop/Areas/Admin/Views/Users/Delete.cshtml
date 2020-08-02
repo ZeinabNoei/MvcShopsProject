@@ -1,0 +1,64 @@
+﻿@model DataLayer.Users
+
+@{
+    ViewBag.Title = "Delete Users";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserEmail)
+        </dd>
+
+      
+       <dt>
+            @Html.DisplayNameFor(model => model.UserActiveCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserIsActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegisterDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegisterDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Roles.RoleTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Roles.RoleTitle)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete User" class="btn btn-danger " /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

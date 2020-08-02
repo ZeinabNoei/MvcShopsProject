@@ -1,0 +1,150 @@
+﻿@using DataLayer
+@model DataLayer.Products
+
+@{
+    ViewBag.Title = "Edit";
+    List<Product_Selected_Groups> selectedGroup = ViewBag.SelectedGroups;
+}
+
+<h2>Edit Product</h2>
+<div class="row">
+    @using (Html.BeginForm("Edit", "Products", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(m => m.ProductID)
+        @Html.HiddenFor(m => m.ProductImageName)
+        @Html.HiddenFor(m => m.RecordDate)
+
+        <div class="col-md-8">
+            @Html.AntiForgeryToken()
+            @if (ViewBag.ErrorSelectedGroup == true)
+            {
+                <div class="alert alert-danger"> Please Select a Groups</div>
+            }
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductTitle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProductTitle, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductShortDesc, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductShortDesc, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProductShortDesc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductText, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductText, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProductText, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ProductPrice, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ProductPrice, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <span class="control-label col-md-2">Keyword</span>
+                    <div class="col-md-10">
+                        <input type="text" name="tags" value="@ViewBag.Tags " class="form-control" placeholder="Separate keywords with , " />
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Edit Product" class="btn btn-warning" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class=" panel panel-primary">
+                <div class=" panel-heading ">Select Groups</div>
+                <div class=" panel-body ">
+                    <img id="imgpreviewProduct" style="margin: 8px auto" class="thumbnails-image" src="~/Images/ProductImages/@Model.ProductImageName" />
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ProductImageName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <input type="file" id="imageProduct" name="imageProduct" />
+                            @Html.ValidationMessageFor(model => model.ProductImageName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" panel panel-primary">
+                <div class=" panel-heading ">Select Image Product</div>
+                <div class=" panel-body ">
+                    @{
+                        List<Product_Groups> groups = ViewBag.Groups;
+
+                        <ul>
+                            @foreach (var group in groups.Where(g => g.ParentID == null))
+                            {
+                                <li>
+                                    <input type="checkbox" @((selectedGroup.Any(g => g.GroupID == group.GroupID)) ? "checked" : "") name="selectedGroups" value="@group.GroupID" /> <span>@group.GroupTitle</span>
+                                    @if (groups.Any(g => g.ParentID == group.GroupID))
+                                    {
+                                        <ul>
+                                            @foreach (var subGroup in groups.Where(g => g.ParentID == group.GroupID))
+                                            {
+                                                <li>
+                                                    <input type="checkbox" @((selectedGroup.Any(g => g.GroupID == subGroup.GroupID)) ? "checked" : "") name="selectedGroups" value="@subGroup.GroupID" /> <span>@subGroup.GroupTitle</span>
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div>
+    @Html.ActionLink("Back to List Products", "Index")
+</div>
+@section Scripts
+{
+    <script>
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imgPreviewProduct').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imageProduct").change(function () {
+            readURL(this);
+        });
+    </script>
+    <script src="/ckeditor/ckeditor.js"></script>
+    <script src="/ckeditor/adapters/jquery.js"></script>
+    <script>
+        $(function () {
+            $('#Text').ckeditor();
+        });
+    </script>
+}

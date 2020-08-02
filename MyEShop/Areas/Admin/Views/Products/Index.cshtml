@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DataLayer.Products>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a class="btn btn-primary" href=" @Url.Action("Create")">Create New Product</a>
+</p>
+<table class="table table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductImageName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductTitle)
+        </th>
+        <th>
+            Products Group
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RecordDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            <img class="t" src="~/Images/ProductImages/Thumb"/>
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductTitle)
+        </td>
+        <td>
+            @if (item.Product_Selected_Groups.Any())
+            {
+                <ol>
+                    @foreach (var group in item.Product_Selected_Groups )
+                    {
+                       <li>
+                           @group.Product_Groups.GroupTitle
+
+                      </li>
+                    }
+                </ol>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RecordDate)
+        </td>
+        <td>
+            <a class="btn btn-default btn-xs" href="#">Product Features</a>
+            <a class="btn btn-info btn-xs" href="#">Product Gallery</a>
+            <a class="btn btn-warning btn-xs" href="@Url.Action("Edit",new {id=item.ProductID })">Product Edit</a>
+            <a class="btn btn-danger btn-xs" href="@Url.Action("Delete",new {id=item.ProductID })">Product Delete</a>
+
+        </td>
+    </tr>
+}
+
+</table>

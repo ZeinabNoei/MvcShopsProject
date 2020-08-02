@@ -1,0 +1,13 @@
+﻿@using System.Configuration
+@model DataLayer.Users
+<div style="direction:rtl; padding:20px">
+    <h2>
+      @Model.UserName  
+    </h2>
+    <p>
+        Thanks for your registration,to activate, click on the link below.
+    </p>
+    <p>
+        <a href="@ConfigurationManager.AppSettings["MyDomail"]/Account/ActivUser/@Model.UserActiveCode/">Activat Link</a>
+    </p>
+</div>

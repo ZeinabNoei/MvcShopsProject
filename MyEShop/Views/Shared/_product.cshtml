@@ -1,0 +1,22 @@
+﻿@model DataLayer.Products
+
+
+<div class="col-md-4 col-sm-6">
+    <div class="border-radius">
+        <span>
+            <img  style="width: 100%; height:150px"    src="~/Images/ProductImages/Thumb/@Model.ProductImageName">
+        </span>
+        <a href="/ShowProduct/@Model.ProductID"> 
+        @Model.ProductTitle
+        </a>
+        <h6>Add List Compare <input type="checkbox" onchange="AddToCompar(@Model.ProductID)"></h6>
+        <span class="col-md-9 col-sm-9 col-xs-9 price-layer">
+            <label>@Model.ProductPrice.ToString("#,0")</label>
+        </span>
+        <a onclick="AddToCart(@Model.ProductID)" class="col-md-2 col-sm-2 col-xs-2 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 buy-button border-radius">
+            <label><i class="fa fa-shopping-basket"></i></label>
+        </a>
+    </div>
+</div>
+
+

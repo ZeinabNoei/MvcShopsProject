@@ -1,0 +1,18 @@
+﻿@model IEnumerable<DataLayer.Products>
+@{
+    ViewBag.Title = "Index";
+}
+
+<section class="last-products">
+    <header><h3> Number @Model.Count()  with @ViewBag.search  find.</h3> <a href="">  </a></header>
+    <article>
+
+        @foreach (var item in Model)
+        {
+            @Html.Partial("_product", item)
+        }
+
+        <div class="clearfix"></div>
+    </article>
+</section>
+

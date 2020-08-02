@@ -1,0 +1,51 @@
+﻿@using DataLayer
+@model IEnumerable<DataLayer.ViewModels.CompareItem>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List Compare</h2>
+<hr />
+@if (Model.Any())
+{
+    <table class="table table-bordered">
+        <tr>
+            <td>Picture</td>
+            @foreach (var item in Model)
+            {
+                <td>
+                    <img style="width:100px; height:100px" class="thumbnail" src="~/Images/ProductImages/Thumb/@item.CompareImageName" />
+                </td>
+            }
+        </tr>
+        <tr>
+            <td>Product</td>
+            @foreach (var item in Model)
+            {
+                <td>
+                    @item.CompareTitle
+                </td>
+            }
+        </tr>
+        @{
+            List<Features> listFeatures = ViewBag.features as List<Features>;
+            List<Product_Features> ProductFeatures = ViewBag.ProductFeatures as List<Product_Features>;
+        }
+        @foreach (var item in listFeatures)
+        {
+            <tr>
+                <td>
+                    @item.FeatureTitle
+                </td>
+                @foreach (var feature in Model)
+                {
+                    <td>
+                        @string.Join("-", ProductFeatures.Where(f=>f.ProductID== feature.ProductID && f.FeatureID==item.FeatureID).Select(f=>f.ProductFeaturesValue).ToList())
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+}

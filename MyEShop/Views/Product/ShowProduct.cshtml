@@ -1,0 +1,118 @@
+﻿
+@using DataLayer
+@using DataLayer.ViewModels
+@model DataLayer.Products
+@{
+    ViewBag.Title = Model.ProductTitle;
+}
+
+<section class="single-page">
+    <header><h3> @Model.ProductTitle </h3> </header>
+    <article>
+        <!-- Detail -->
+        <div class="col-md-8 col-sm-12 col-xs-12 pull-left detail-product">
+            <div>
+                <span> قیمت :@Model.ProductPrice.ToString("#,0") </span>
+                <a onclick="AddToCart(@Model.ProductID)" class="add-to-card-link border-radius"> افزودن به سبد خرید </a>
+            </div>
+            <p>@Model.ProductShortDesc</p>
+        </div>
+        <!-- End Detail -->
+        <!-- Gallery -->
+        <div class="col-md-4 col-sm-12 col-xs-12 pull-right product-gallery">
+            <div class="large-image border-radius">
+                <img class="border-radius" src="~/Images/ProductImages/@Model.ProductImageName">
+            </div>
+            @if (Model.Product_Galleries.Any())
+            {
+                <div class="thumbnails-image">
+                    <div class="row">
+                        @foreach (var item in Model.Product_Galleries)
+                        {
+                            <div class="col-md-3 col-sm-3 col-xs-4 border-radius"><img class="border-radius" alt="@item.GalleryTitle" src="~/Images/ProductImages/@item.GalleryImageName"></div>
+
+                        }
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+            }
+        </div>
+        <!-- End Gallery -->
+        <div class="clearfix"></div>
+    </article>
+</section>
+
+
+<div class="tabs-product margin-top-25">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#main-content"> توضیحات کامل </a></li>
+        <li><a data-toggle="tab" href="#properties"> ویژگی ها </a></li>
+        <li><a data-toggle="tab" href="#comments"> نظرات کاربران </a></li>
+    </ul>
+
+    <div class="tab-content ">
+
+        <!-- description -->
+        <div id="main-content" class="tab-pane fade in active">
+            @Html.Raw(Model.ProductText)
+        </div>
+        <!-- End description -->
+        <!-- Chart -->
+        <div id="properties" class="tab-pane fade">
+
+            @if (ViewBag.Productfeatures != null)
+            {
+                List<ShowProductFeatureViewModel> list = ViewBag.Productfeatures;
+
+                <ul>
+                    @foreach (var item in list)
+                    {
+                        <li>@item.FeatureTitle:@string.Join(",", item.Values)</li>
+                    }
+
+                </ul>
+            }
+
+        </div>
+        <!-- End Chart -->
+        <!-- Comment -->
+        <div id="comments" class="tab-pane fade">
+            <div class="comment-layer" id="commentProduct">
+                @Html.Action("CreateComment")
+                <ul class="comment-list" id="listComment">
+                    @Html.Action("ShowComments")
+                </ul>
+            </div>
+
+        </div>
+        <!-- End Comment -->
+
+
+
+    </div>
+</div>
+
+<section class="border-radius tags-layer">
+    @foreach (var item in Model.ProductTags)
+    {
+        <a href="/Search?q=@item.Tag">@item.ProductTag</a>
+    }
+</section>
+
+
+<script>
+    function successComment() {
+        $("#UserName").val("");
+        $("#UserEmail").val("");
+        $("#UserWebSite").val("");
+        $("#Comment").val("");
+        $("#CommentParentID").val("");
+    }
+
+    function ReplyComment(id) {
+        $("#CommentParentID").val(id);
+        $("html, body").delay(2000).animate({ scrollTop: $('#CommentParentID').offset().top }, 2000);
+    }
+</script>

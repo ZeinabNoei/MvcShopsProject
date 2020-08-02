@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DataLayer.Product_Groups>
+
+
+<table class="table table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GroupTitle)
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Product_Groups2.GroupTitle)*@
+            SubGroup
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr id="group_@(item.GroupID)">
+            <td>
+                @Html.DisplayFor(modelItem => item.GroupTitle)
+            </td>
+            <td>
+                @if (item.Product_Groups1.Any())
+                {
+                    <ul>
+                        @foreach (var subagroup in item.Product_Groups1)
+                        {
+                        <li id="group_@(subagroup.GroupID)">
+                            @subagroup.GroupTitle
+                          
+                            <a class="text-danger" onclick=" Edit(@subagroup.GroupID)">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                            <a class="text-warning" onclick="Delete(@subagroup.GroupID)">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        </li>
+                        }
+                    </ul>
+                }
+            </td>
+            <td>
+                <a class="btn btn-primary btn-xs" onclick="Create(@item.GroupID)">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </a>
+                <a class="btn btn-warning btn-xs" onclick=" Edit(@item.GroupID)">
+                    <i class="glyphicon glyphicon-edit"></i>
+                </a>
+                <a class="btn btn-danger btn-xs" onclick="Delete(@item.GroupID)">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+            </td>
+        </tr>
+    }
+
+</table>

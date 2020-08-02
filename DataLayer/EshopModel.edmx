@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MvcEShop_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Product_Galleries">
+          <Key>
+            <PropertyRef Name="GalleryID" />
+          </Key>
+          <Property Name="GalleryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="GalleryImageName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RecordDate" Type="datetime" />
+          <Property Name="ModificationDate" Type="datetime" />
+          <Property Name="GalleryTitle" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Product_Groups">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupTitle" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="RecordDate" Type="datetime" />
+          <Property Name="ModificationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Product_Selected_Groups">
+          <Key>
+            <PropertyRef Name="ProductGroupID" />
+          </Key>
+          <Property Name="ProductGroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="GroupID" Type="int" Nullable="false" />
+          <Property Name="RecordDate" Type="datetime" />
+          <Property Name="ModificationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Product_Tags">
+          <Key>
+            <PropertyRef Name="ProductTagID" />
+          </Key>
+          <Property Name="ProductTagID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="ProductTag" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="RecordDate" Type="datetime" />
+          <Property Name="ModificationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductTitle" Type="nvarchar" MaxLength="350" Nullable="false" />
+          <Property Name="ProductShortDesc" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ProductText" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ProductPrice" Type="int" Nullable="false" />
+          <Property Name="ProductImageName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RecordDate" Type="datetime" Nullable="false" />
+          <Property Name="ModificationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="RoleTitle" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="RegisterDate" Type="datetime" />
+          <Property Name="ModificationDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="UserEmail" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="UserPassword" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="UserActiveCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserIsActive" Type="bit" Nullable="false" />
+          <Property Name="RegisterDate" Type="datetime" Nullable="false" />
+          <Property Name="ModificationDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Prodct_Selected_Groups_Product_Groups">
+          <End Role="Product_Groups" Type="Self.Product_Groups" Multiplicity="1" />
+          <End Role="Product_Selected_Groups" Type="Self.Product_Selected_Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Product_Selected_Groups">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Prodct_Selected_Groups_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="Product_Selected_Groups" Type="Self.Product_Selected_Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Product_Selected_Groups">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Galleries_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="Product_Galleries" Type="Self.Product_Galleries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Product_Galleries">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Groups_Product_Groups">
+          <End Role="Product_Groups" Type="Self.Product_Groups" Multiplicity="0..1" />
+          <End Role="Product_Groups1" Type="Self.Product_Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Product_Groups1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Tags_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="Product_Tags" Type="Self.Product_Tags" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Product_Tags">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MvcEShop_DBModelStoreContainer">
+          <EntitySet Name="Product_Galleries" EntityType="Self.Product_Galleries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Groups" EntityType="Self.Product_Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Selected_Groups" EntityType="Self.Product_Selected_Groups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Tags" EntityType="Self.Product_Tags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Prodct_Selected_Groups_Product_Groups" Association="Self.FK_Prodct_Selected_Groups_Product_Groups">
+            <End Role="Product_Groups" EntitySet="Product_Groups" />
+            <End Role="Product_Selected_Groups" EntitySet="Product_Selected_Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prodct_Selected_Groups_Products" Association="Self.FK_Prodct_Selected_Groups_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Product_Selected_Groups" EntitySet="Product_Selected_Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Galleries_Products" Association="Self.FK_Product_Galleries_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Product_Galleries" EntitySet="Product_Galleries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Groups_Product_Groups" Association="Self.FK_Product_Groups_Product_Groups">
+            <End Role="Product_Groups" EntitySet="Product_Groups" />
+            <End Role="Product_Groups1" EntitySet="Product_Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Tags_Products" Association="Self.FK_Product_Tags_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Product_Tags" EntitySet="Product_Tags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MvcEShop_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MvcEShop_DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Product_Galleries" EntityType="MvcEShop_DBModel.Product_Galleries" />
+          <EntitySet Name="Product_Groups" EntityType="MvcEShop_DBModel.Product_Groups" />
+          <EntitySet Name="Product_Selected_Groups" EntityType="MvcEShop_DBModel.Product_Selected_Groups" />
+          <EntitySet Name="Product_Tags" EntityType="MvcEShop_DBModel.Product_Tags" />
+          <EntitySet Name="Products" EntityType="MvcEShop_DBModel.Products" />
+          <EntitySet Name="Roles" EntityType="MvcEShop_DBModel.Roles" />
+          <EntitySet Name="Users" EntityType="MvcEShop_DBModel.Users" />
+          <AssociationSet Name="FK_Product_Galleries_Products" Association="MvcEShop_DBModel.FK_Product_Galleries_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Product_Galleries" EntitySet="Product_Galleries" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prodct_Selected_Groups_Product_Groups" Association="MvcEShop_DBModel.FK_Prodct_Selected_Groups_Product_Groups">
+            <End Role="Product_Groups" EntitySet="Product_Groups" />
+            <End Role="Product_Selected_Groups" EntitySet="Product_Selected_Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Groups_Product_Groups" Association="MvcEShop_DBModel.FK_Product_Groups_Product_Groups">
+            <End Role="Product_Groups" EntitySet="Product_Groups" />
+            <End Role="Product_Groups1" EntitySet="Product_Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Prodct_Selected_Groups_Products" Association="MvcEShop_DBModel.FK_Prodct_Selected_Groups_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Product_Selected_Groups" EntitySet="Product_Selected_Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Tags_Products" Association="MvcEShop_DBModel.FK_Product_Tags_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Product_Tags" EntitySet="Product_Tags" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="MvcEShop_DBModel.FK_Users_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Product_Galleries">
+          <Key>
+            <PropertyRef Name="GalleryID" />
+          </Key>
+          <Property Name="GalleryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="GalleryImageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RecordDate" Type="DateTime" Precision="3" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <Property Name="GalleryTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Products" Relationship="MvcEShop_DBModel.FK_Product_Galleries_Products" FromRole="Product_Galleries" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Product_Groups">
+          <Key>
+            <PropertyRef Name="GroupID" />
+          </Key>
+          <Property Name="GroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupTitle" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="RecordDate" Type="DateTime" Precision="3" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Product_Selected_Groups" Relationship="MvcEShop_DBModel.FK_Prodct_Selected_Groups_Product_Groups" FromRole="Product_Groups" ToRole="Product_Selected_Groups" />
+          <NavigationProperty Name="Product_Groups1" Relationship="MvcEShop_DBModel.FK_Product_Groups_Product_Groups" FromRole="Product_Groups" ToRole="Product_Groups1" />
+          <NavigationProperty Name="Product_Groups2" Relationship="MvcEShop_DBModel.FK_Product_Groups_Product_Groups" FromRole="Product_Groups1" ToRole="Product_Groups" />
+        </EntityType>
+        <EntityType Name="Product_Selected_Groups">
+          <Key>
+            <PropertyRef Name="ProductGroupID" />
+          </Key>
+          <Property Name="ProductGroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="GroupID" Type="Int32" Nullable="false" />
+          <Property Name="RecordDate" Type="DateTime" Precision="3" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Product_Groups" Relationship="MvcEShop_DBModel.FK_Prodct_Selected_Groups_Product_Groups" FromRole="Product_Selected_Groups" ToRole="Product_Groups" />
+          <NavigationProperty Name="Products" Relationship="MvcEShop_DBModel.FK_Prodct_Selected_Groups_Products" FromRole="Product_Selected_Groups" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Product_Tags">
+          <Key>
+            <PropertyRef Name="ProductTagID" />
+          </Key>
+          <Property Name="ProductTagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="ProductTag" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="RecordDate" Type="DateTime" Precision="3" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Products" Relationship="MvcEShop_DBModel.FK_Product_Tags_Products" FromRole="Product_Tags" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="ProductID" />
+          </Key>
+          <Property Name="ProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductTitle" Type="String" Nullable="false" MaxLength="350" FixedLength="false" Unicode="true" />
+          <Property Name="ProductShortDesc" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProductText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProductPrice" Type="Int32" Nullable="false" />
+          <Property Name="ProductImageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RecordDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Product_Galleries" Relationship="MvcEShop_DBModel.FK_Product_Galleries_Products" FromRole="Products" ToRole="Product_Galleries" />
+          <NavigationProperty Name="Product_Selected_Groups" Relationship="MvcEShop_DBModel.FK_Prodct_Selected_Groups_Products" FromRole="Products" ToRole="Product_Selected_Groups" />
+          <NavigationProperty Name="Product_Tags" Relationship="MvcEShop_DBModel.FK_Product_Tags_Products" FromRole="Products" ToRole="Product_Tags" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleID" />
+          </Key>
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="RoleTitle" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="RegisterDate" Type="DateTime" Precision="3" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="MvcEShop_DBModel.FK_Users_Roles" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UserEmail" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UserPassword" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="UserActiveCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserIsActive" Type="Boolean" Nullable="false" />
+          <Property Name="RegisterDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModificationDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Roles" Relationship="MvcEShop_DBModel.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
+        </EntityType>
+        <Association Name="FK_Product_Galleries_Products">
+          <End Type="MvcEShop_DBModel.Products" Role="Products" Multiplicity="1" />
+          <End Type="MvcEShop_DBModel.Product_Galleries" Role="Product_Galleries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Product_Galleries">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Prodct_Selected_Groups_Product_Groups">
+          <End Type="MvcEShop_DBModel.Product_Groups" Role="Product_Groups" Multiplicity="1" />
+          <End Type="MvcEShop_DBModel.Product_Selected_Groups" Role="Product_Selected_Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Product_Selected_Groups">
+              <PropertyRef Name="GroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Groups_Product_Groups">
+          <End Type="MvcEShop_DBModel.Product_Groups" Role="Product_Groups" Multiplicity="0..1" />
+          <End Type="MvcEShop_DBModel.Product_Groups" Role="Product_Groups1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Groups">
+              <PropertyRef Name="GroupID" />
+            </Principal>
+            <Dependent Role="Product_Groups1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Prodct_Selected_Groups_Products">
+          <End Type="MvcEShop_DBModel.Products" Role="Products" Multiplicity="1" />
+          <End Type="MvcEShop_DBModel.Product_Selected_Groups" Role="Product_Selected_Groups" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Product_Selected_Groups">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Tags_Products">
+          <End Type="MvcEShop_DBModel.Products" Role="Products" Multiplicity="1" />
+          <End Type="MvcEShop_DBModel.Product_Tags" Role="Product_Tags" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="ProductID" />
+            </Principal>
+            <Dependent Role="Product_Tags">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Type="MvcEShop_DBModel.Roles" Role="Roles" Multiplicity="1" />
+          <End Type="MvcEShop_DBModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MvcEShop_DBModelStoreContainer" CdmEntityContainer="MvcEShop_DBEntities">
+          <EntitySetMapping Name="Product_Galleries">
+            <EntityTypeMapping TypeName="MvcEShop_DBModel.Product_Galleries">
+              <MappingFragment StoreEntitySet="Product_Galleries">
+                <ScalarProperty Name="GalleryTitle" ColumnName="GalleryTitle" />
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
+                <ScalarProperty Name="GalleryImageName" ColumnName="GalleryImageName" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="GalleryID" ColumnName="GalleryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Groups">
+            <EntityTypeMapping TypeName="MvcEShop_DBModel.Product_Groups">
+              <MappingFragment StoreEntitySet="Product_Groups">
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="GroupTitle" ColumnName="GroupTitle" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Selected_Groups">
+            <EntityTypeMapping TypeName="MvcEShop_DBModel.Product_Selected_Groups">
+              <MappingFragment StoreEntitySet="Product_Selected_Groups">
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
+                <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductGroupID" ColumnName="ProductGroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Tags">
+            <EntityTypeMapping TypeName="MvcEShop_DBModel.Product_Tags">
+              <MappingFragment StoreEntitySet="Product_Tags">
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
+                <ScalarProperty Name="ProductTag" ColumnName="ProductTag" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductTagID" ColumnName="ProductTagID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="MvcEShop_DBModel.Products">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="RecordDate" ColumnName="RecordDate" />
+                <ScalarProperty Name="ProductImageName" ColumnName="ProductImageName" />
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+                <ScalarProperty Name="ProductText" ColumnName="ProductText" />
+                <ScalarProperty Name="ProductShortDesc" ColumnName="ProductShortDesc" />
+                <ScalarProperty Name="ProductTitle" ColumnName="ProductTitle" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="MvcEShop_DBModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleTitle" ColumnName="RoleTitle" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MvcEShop_DBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="UserIsActive" ColumnName="UserIsActive" />
+                <ScalarProperty Name="UserActiveCode" ColumnName="UserActiveCode" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
